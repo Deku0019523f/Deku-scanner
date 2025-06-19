@@ -19,6 +19,7 @@
 pkg update && pkg install git -y
 git clone https://github.com/Deku0019523f/Deku-scanner.git
 cd Deku-scanner
+pkg install jq-y
 bash scanner-menu.sh
 ```
 
