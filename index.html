@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyse Téléphone</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    button { padding: 15px 25px; margin: 20px; font-size: 16px; }
+    pre { background: #f4f4f4; padding: 15px; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Analyse Téléphone</h1>
+  <button onclick="runScan('root')">Analyse avec Root</button>
+  <button onclick="runScan('noroot')">Analyse sans Root</button>
+  <pre id="output">Résultat ici...</pre>
+
+  <script>
+    async function runScan(type) {
+      const response = await fetch(`/scan?mode=${type}`);
+      const text = await response.text();
+      document.getElementById('output').textContent = text;
+    }
+  </script>
+</body>
+</html>
