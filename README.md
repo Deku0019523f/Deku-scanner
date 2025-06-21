@@ -1,24 +1,25 @@
-# 🤖 CodeGen Telegram Bot
+# 🤖 CodeGen Bot (OpenRouter)
 
-Un bot Telegram qui génère du code automatiquement grâce à OpenAI (GPT-4).
+Un bot Telegram qui génère du code automatiquement grâce à [OpenRouter.ai](https://openrouter.ai).
 
-## 🔧 Fonctionnalités
-- Accueil personnalisé avec /start
-- Génération de code (HTML, Python, bots Telegram, etc.)
+---
 
-## 🚀 Déploiement sur Railway
+## 🚀 Fonctionnalités
 
-1. Clique ici : [![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new)
-2. Renseigne les variables `BOT_TOKEN` et `OPENAI_API_KEY`
-3. Lance le projet 🚀
+- Génération automatique de :
+  - HTML, CSS, JS
+  - Bots Telegram
+  - Scripts Python
 
-## 📦 Variables d'environnement
+---
 
-- `BOT_TOKEN` : Token de ton bot Telegram
-- `OPENAI_API_KEY` : Clé API OpenAI
+## 🛠️ Déploiement
 
-## 📬 Exemple de commandes
+1. Clone ce dépôt ou copie les fichiers
+2. Crée un `.env` avec :
+   - `BOT_TOKEN` (via @BotFather)
+   - `OPENROUTER_API_KEY` (https://openrouter.ai/keys)
+3. Installe les dépendances :
 
-- `/start`
-- `Crée une page HTML avec un bouton animé`
-- `Fais un bot qui envoie des messages toutes les heures`
+```bash
+pip install -r requirements.txt
