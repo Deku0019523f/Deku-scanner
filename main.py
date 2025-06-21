@@ -11,13 +11,13 @@ log_file = "logs.txt"
 
 # 🔁 URLs des images hébergées sur GitHub
 IMG = {
-    "crunchy": "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/Crunch.png",
-    "vpn": "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/Africa.png",
-    "vps": "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/VPS.png",
+    "crunchy": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/Crunch.png",
+    "vpn": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/Africa.png",
+    "vps": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/VPS.png",
     "tuto": [
-        "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/tuto1.png",
-        "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/tuto2.png",
-        "https://raw.githubusercontent.com/TON_USER/TON_REPO/main/images/tuto3.png"
+        "https://raw.githubusercontent.com/TON_USER/Deku0019523f/Deku-scanner/images/tuto1.png",
+        "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/tuto2.png",
+        "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/tuto3.png"
     ]
 }
 
