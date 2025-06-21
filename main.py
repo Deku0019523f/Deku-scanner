@@ -1,10 +1,13 @@
 import telebot
 import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = "openai/gpt-3.5-turbo"  # Tu peux aussi tester "mistralai/mixtral-8x7b"
+MODEL = "mistralai/mixtral-8x7b"  # Modèle gratuit et puissant
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -25,7 +28,6 @@ def generate_code(message):
         headers = {
             "Authorization": f"Bearer {OPENROUTER_API_KEY}",
             "Content-Type": "application/json",
-            "HTTP-Referer": "https://t.me/IA_Deku_Bot",  # Personnalise si tu veux
             "X-Title": "CodeGenerator"
         }
 
@@ -47,11 +49,9 @@ def generate_code(message):
             content = result["choices"][0]["message"]["content"]
             bot.reply_to(message, content)
         else:
-            bot.reply_to(message, "❌ Une erreur est survenue avec OpenRouter.")
-            print("Erreur OpenRouter:", response.text)
+            bot.reply_to(message, f"❌ Erreur OpenRouter {response.status_code} : {response.text}")
 
     except Exception as e:
-        print("Erreur Python:", e)
-        bot.reply_to(message, "❌ Une erreur est survenue. Vérifie ta clé OpenRouter.")
+        bot.reply_to(message, f"❌ Erreur côté bot : {str(e)}")
 
 bot.polling()
