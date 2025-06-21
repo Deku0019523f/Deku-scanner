@@ -1,57 +1,83 @@
-import telebot
 import os
-import requests
-from dotenv import load_dotenv
+import json
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
-load_dotenv()
+ADMIN_ID = 1299831974
+served_users_file = "users_served.json"
+if os.path.exists(served_users_file):
+    with open(served_users_file, "r") as f:
+        served_users = json.load(f)
+else:
+    served_users = {}
 
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL = "mistralai/mixtral-8x7b"  # Modèle gratuit et puissant
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user
+    name = user.first_name or user.username
+    text = f"👋 Bonjour {name} !\n\nBienvenue sur 🛒 Deku Shop – ton centre de services anime & tech !\n\n"
+    text += "📦 Voici ce que je propose :\n"
+    text += "1️⃣ Crunchyroll Premium – Anime en illimité VF/VOSTFR\n"
+    text += "2️⃣ VPN AfricaSurf – Surf gratuit dans 7 pays d’Afrique\n"
+    text += "3️⃣ VPS Blackoft – Gère toi-même ton système VPN privé\n\n"
+    text += "🛍️ Clique sur un bouton ci-dessous pour commencer 👇"
 
-bot = telebot.TeleBot(BOT_TOKEN)
+    keyboard = [
+        [InlineKeyboardButton("🎬 Crunchyroll", callback_data='crunchyroll')],
+        [InlineKeyboardButton("🌍 VPN AfricaSurf", callback_data='vpn')],
+        [InlineKeyboardButton("🖥️ VPS Blackoft", callback_data='vps')],
+    ]
+    await update.message.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard))
 
-@bot.message_handler(commands=['start'])
-def send_welcome(message):
-    username = message.from_user.first_name or message.chat.username
-    welcome_text = f"👋 Bonjour {username} !\n\n"
-    welcome_text += "Je suis un bot qui génère du code automatiquement.\n"
-    welcome_text += "Envoie-moi une demande comme :\n"
-    welcome_text += "➡️ Crée un bot Telegram qui répond ‘Bonjour’\n"
-    welcome_text += "➡️ Génère une page HTML simple pour un portfolio"
-    bot.reply_to(message, welcome_text)
+async def handle_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    query = update.callback_query
+    await query.answer()
 
-@bot.message_handler(func=lambda message: True)
-def generate_code(message):
-    try:
-        prompt = message.text
-        headers = {
-            "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-            "Content-Type": "application/json",
-            "X-Title": "CodeGenerator"
-        }
-
-        data = {
-            "model": MODEL,
-            "messages": [
-                {"role": "user", "content": f"Génère ce code : {prompt}"}
-            ]
-        }
-
-        response = requests.post(
-            "https://openrouter.ai/api/v1/chat/completions",
-            headers=headers,
-            json=data
+    if query.data == "crunchyroll":
+        await query.edit_message_text(
+            "🎬 Crunchyroll Premium\n\n📜 Tarifs :\n1 mois : 1500 FCFA\n2 mois : 3000 FCFA\n3 mois : 5000 FCFA\n6 mois : 10000 FCFA\n1 an : 20000 FCFA\n\n✅ Compte personnel, sans pub\n💬 Pour commander :\nTelegram: @Deku225\nWhatsApp: +2250575719113"
         )
 
-        if response.status_code == 200:
-            result = response.json()
-            content = result["choices"][0]["message"]["content"]
-            bot.reply_to(message, content)
-        else:
-            bot.reply_to(message, f"❌ Erreur OpenRouter {response.status_code} : {response.text}")
+    elif query.data == "vpn":
+        keyboard = [
+            [InlineKeyboardButton("📲 Acheter un compte", callback_data='acheter_vpn')],
+            [InlineKeyboardButton("🧪 Obtenir un compte test", callback_data='test_vpn')],
+        ]
+        await query.edit_message_text("🌍 VPN AfricaSurf – Choisis une option :", reply_markup=InlineKeyboardMarkup(keyboard))
 
-    except Exception as e:
-        bot.reply_to(message, f"❌ Erreur côté bot : {str(e)}")
+    elif query.data == "acheter_vpn":
+        await query.edit_message_text("📞 Pour commander :\nTelegram : @Deku225\nWhatsApp : +2250575719113")
 
-bot.polling()
+    elif query.data == "test_vpn":
+        user_id = str(query.from_user.id)
+        if user_id in served_users:
+            await query.edit_message_text("🧪 Tu as déjà reçu un compte test AfricaSurf.")
+            return
+        try:
+            with open("comptes_test_africasurf.txt", "r") as f:
+                lines = f.readlines()
+            if not lines:
+                await query.edit_message_text("❌ Tous les comptes test ont été utilisés.")
+                return
+            compte = lines.pop(0).strip()
+            served_users[user_id] = compte
+            with open(served_users_file, "w") as f:
+                json.dump(served_users, f)
+            with open("comptes_test_africasurf.txt", "w") as f:
+                f.writelines(lines)
+            await query.edit_message_text(f"🧪 Voici ton compte test AfricaSurf :\n`{compte}`", parse_mode="Markdown")
+
+            if len(lines) < 3:
+                await context.bot.send_message(chat_id=ADMIN_ID,
+                    text=f"⚠️ Alerte stock ! Il ne reste plus que {len(lines)} comptes tests AfricaSurf.")
+        except Exception as e:
+            await query.edit_message_text("❌ Erreur lors de la distribution du compte test.")
+
+    elif query.data == "vps":
+        await query.edit_message_text(
+            "🖥️ VPS – Blackoft Hosting\n\n🔥 Tu veux ton propre Free Surf ?\n💻 Crée ton système VPN toi-même (V2Ray, Xray, SlowDNS, etc.)\n\n🌐 Compatible avec :\nMTN CI, Moov, Orange, Vodacom, etc.\n\n💸 Tarifs :\n• 8500 FCFA (config + VPS)\n• 5500 FCFA / mois\n\n📞 Pour commander :\nTelegram : @Deku225\nWhatsApp : +2250575719113"
+        )
+
+app = ApplicationBuilder().token(os.getenv("BOT_TOKEN")).build()
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CallbackQueryHandler(handle_button))
+app.run_polling()
