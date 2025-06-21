@@ -15,7 +15,7 @@ IMG = {
     "vpn": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/Africa.png",
     "vps": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/VPS.png",
     "tuto": [
-        "https://raw.githubusercontent.com/TON_USER/Deku0019523f/Deku-scanner/images/tuto1.png",
+        "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/images/tuto1.png",
         "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/tuto2.png",
         "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/tuto3.png"
     ]
