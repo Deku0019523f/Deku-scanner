@@ -1,0 +1,20 @@
+[
+  {
+    "nom": "AfricaSurf VPN",
+    "description": "🌍 VPN pour connexion gratuite sur réseaux africains (MTN, Moov, Orange, etc.)\n⚙️ Compatible : CI, CM, TG, Bénin, Burkina, RDC, etc.",
+    "prix": "2000 FCFA / mois",
+    "image": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/Africa.png"
+  },
+  {
+    "nom": "Compte Crunchyroll",
+    "description": "🎌 Accès illimité à tous les animés en qualité premium sans pub.\n🔐 Compte partagé stable avec accès sécurisé.",
+    "prix": "1500 FCFA / mois",
+    "image": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/Crunch.png"
+  },
+  {
+    "nom": "VPS Free Surf",
+    "description": "💻 Crée ton propre VPN avec un VPS configuré pour tous les réseaux.\n✅ Assistance pour débutant, compatible UDP/V2Ray/Xray\n🌐 Pays : CI, CM, Togo, RDC, Bénin, Burkina, etc.",
+    "prix": "8500 FCFA config + 5500 FCFA/mois",
+    "image": "https://raw.githubusercontent.com/Deku0019523f/Deku-scanner/main/images/VPS.png"
+  }
+]
